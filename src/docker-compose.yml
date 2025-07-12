@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  always404:
+    build: .
+    container_name: always-404
+    ports:
+      - "9999:9999"      # host:container
+    networks:
+      - bridge_net
+
+networks:
+  bridge_net:
+    driver: bridge       # explícito, embora seja o default
