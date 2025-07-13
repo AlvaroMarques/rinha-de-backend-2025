@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stddef.h>
 #include <stdlib.h>
+#include <math.h>
 
 typedef enum Dtype {
 	DTYPE_UUID = 0,

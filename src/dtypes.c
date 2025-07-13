@@ -17,18 +17,12 @@ DtypeDecimal decimal__from_string(char *input, size_t size) {
 	 * 	If the input doesn't have an ., the fraction will be 0 (which thinking about it it can make sense)
 	 * I'm assuming the decimal input will always be perfect
 	 */
-	size_t i;
-	// Adding this for safety when reading the int
 	input[size-1] = '\0';
+	unsigned int decimalTimes100 = (unsigned int) round(100 * atof(input));
 
 	DtypeDecimal d;
-	d.fractional = 0;
-	d.integer = (unsigned int) strtol(input, NULL, 10);
-	for (i = 0; i < size; i++){
-		if (input[i] == '.') {
-			d.fractional = (unsigned int) strtol(&(input[i+1]), NULL, 10);
-		}
-	}
+	d.fractional = (decimalTimes100 % 100);
+	d.integer = (decimalTimes100 / 100);
 	return d;
 }
 
@@ -44,8 +38,8 @@ void decimal__parse(DtypeDecimal d, char* buff, size_t size) {
 	}
 }
 
-/*
-int main() {
+
+/*int main() {
 	DtypeDecimal d = decimal__new(10, 37);
 	char buff[DTYPES_DECIMAL_STR_BUFFER_SIZE];
 	decimal__parse(d, buff, 20);
@@ -54,7 +48,7 @@ int main() {
 	decimal__parse(d, buff, 30);
 	printf("%s\n", buff);
 	printf("%ld\n", strtol("10.10", NULL, 10));
-	char input[] = "10.20";
+	char input[] = "10.01";
 	d = decimal__from_string(input, sizeof(input));
 	printf("%u %u\n", d.integer, d.fractional);
 	decimal__parse(d, buff, 20);
