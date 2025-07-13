@@ -15,8 +15,11 @@ main: main.o
 response: response.o dtypes.o
 	$(CC) $(CFLAGS) -o $@ $<
 
-request: request.o dtypes.o
-	$(CC) $(CFLAGS) -o $@ $<
+request: request.o
+	$(CC) $(CFLAGS) -o $@ -c $@
+
+request.o: request.c dtypes.c
+	$(CC) $(CFLAGS) -o $@ $^
 
 dtypes: dtypes.o
 	$(CC) $(CFLAGS) -o $@ $<

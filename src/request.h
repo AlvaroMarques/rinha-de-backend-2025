@@ -12,6 +12,8 @@ typedef struct RequestPaymentsPost {
 	DtypeDecimal amount;
 } RequestPaymentsPost;
 
-RequestPaymentsPost RequestPaymentsPost__from_string(char * string, size_t size);
+void RequestPaymentsPost__from_string(RequestPaymentsPost *p, char * string);
+RequestPaymentsPost RequestPaymentsPost__new();
+void RequestPaymentsPost__show(RequestPaymentsPost p);
 
 #endif
