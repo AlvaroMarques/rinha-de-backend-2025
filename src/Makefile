@@ -1,40 +1,33 @@
-# -------- Makefile --------
-# Flags e variáveis
+# ---------- Makefile ----------
+# Toolchain
 CC      := gcc
-CFLAGS  := -Wall -Wextra -O2 -static -s
-SRCS    := main.c response.c request.c dtypes.c
+CFLAGS  := -Wall -Wextra -O2 -static -s -MMD -MP   # -MMD auto-generates .d deps
+
+# Sources / objects
+SRCS    := main.c request.c dtypes.c
 OBJS    := $(SRCS:.c=.o)
+DEPS    := $(OBJS:.o=.d)      # list of generated dep files
 
-# Alvo padrão
-all: main response
+# -------- default target -------
+all: main
 
-# Binário principal
-main: main.o
-	$(CC) $(CFLAGS) -o $@ $^
+# --- link step (build executable) ---
+main: $(OBJS)
+	$(CC) $(CFLAGS) $^ -o $@
 
-response: response.o dtypes.o
-	$(CC) $(CFLAGS) -o $@ $<
-
-request: request.o
-	$(CC) $(CFLAGS) -o $@ -c $@
-
-request.o: request.c dtypes.c
-	$(CC) $(CFLAGS) -o $@ $^
-
-dtypes: dtypes.o
-	$(CC) $(CFLAGS) -o $@ $<
-
-# Regra genérica para .o
+# --- compile step (generic rule) ----
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Teste rápido
+# -------- convenience targets -------
 run: main
 	./main
 
-# Limpeza
 clean:
-	rm -f *.o main response
+	rm -f $(OBJS) $(DEPS) main
+
+# pull in header dependencies (.d files) if they exist
+-include $(DEPS)
 
 .PHONY: all run clean
-# --------------------------
+# ------------------------------------
