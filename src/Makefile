@@ -2,7 +2,7 @@
 # Flags e variáveis
 CC      := gcc
 CFLAGS  := -Wall -Wextra -O2 -static -s
-SRCS    := main.c response.c dtypes.c
+SRCS    := main.c response.c request.c dtypes.c
 OBJS    := $(SRCS:.c=.o)
 
 # Alvo padrão
@@ -12,11 +12,12 @@ all: main response
 main: main.o
 	$(CC) $(CFLAGS) -o $@ $^
 
-# Binário auxiliar (opcional)
 response: response.o dtypes.o
 	$(CC) $(CFLAGS) -o $@ $<
 
-# Binário auxiliar (opcional)
+request: request.o dtypes.o
+	$(CC) $(CFLAGS) -o $@ $<
+
 dtypes: dtypes.o
 	$(CC) $(CFLAGS) -o $@ $<
 
