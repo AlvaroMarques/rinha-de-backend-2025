@@ -17,6 +17,14 @@ const char* parse__connection_type(ConnectionType t) {
 			return "";
 	}
 }
+const char* parse_http_status(HTTPStatus s) {
+	switch (s) {
+		case HTTP_200_OK:
+			return "200 OK";
+		default:
+			return "";
+	}
+}
 
 int main() {
 	printf("%s\n",  parse__content_type(CT_JSON));
