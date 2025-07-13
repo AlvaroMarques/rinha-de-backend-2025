@@ -8,23 +8,51 @@ DtypeDecimal decimal__new(unsigned int integer, unsigned short fractional) {
 	return d;
 }
 
+DtypeDecimal decimal__from_string(char *input, size_t size) {
+	size_t i;
+	// Adding this for safety when reading the int
+	input[size-1] = '\0';
+
+	DtypeDecimal d;
+	d.fractional = 0;
+	d.integer = (unsigned int) strtol(input, NULL, 10);
+	printf("Integer parsed: %u\n", d.integer);
+
+	for (i = 0; i < size; i++){
+		if (input[i] == '.') {
+			d.fractional = (unsigned int) strtol(&(input[i+1]), NULL, 10);
+		}
+	}
+
+	return d;
+}
+
 bool decimal__is_valid(DtypeDecimal d) {
 	return (d.fractional < 100);
-
 }
 
 void decimal__parse(DtypeDecimal d, char* buff, size_t size) {
 	if (decimal__is_valid(d)) {
-		snprintf(buff, size, "%u.%u", d.integer, d.fractional);
+		snprintf(buff, size, "%u.%02u", d.integer, d.fractional);
 	} else {
-		snprintf(buff, size, "Invalid Decimal: %u.%2u", d.integer, d.fractional);
+		snprintf(buff, size, "Invalid Decimal: %u.%02u", d.integer, d.fractional);
 	}
 }
+
 
 int main() {
 	DtypeDecimal d = decimal__new(10, 37);
 	char buff[DTYPES_DECIMAL_STR_BUFFER_SIZE];
 	decimal__parse(d, buff, 20);
 	printf("%s\n", buff);
+	d = decimal__new(10, 107);
+	decimal__parse(d, buff, 30);
+	printf("%s\n", buff);
+	printf("%ld\n", strtol("10.10", NULL, 10));
+	char input[] = "10.20";
+	d = decimal__from_string(input, sizeof(input));
+	printf("%u %u\n", d.integer, d.fractional);
+	decimal__parse(d, buff, 20);
+	printf("%s - Result\n", buff);
 	return 0;
 }

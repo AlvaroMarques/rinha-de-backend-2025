@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stddef.h>
+#include <stdlib.h>
 
 typedef struct DtypeDecimal {
 	unsigned int integer;
@@ -13,6 +14,7 @@ typedef struct DtypeDecimal {
 } DtypeDecimal;
 
 DtypeDecimal decimal__new(unsigned int integer, unsigned short fractional);
+DtypeDecimal decimal__from_string(char* input, size_t size);
 
 bool decimal__is_valid(DtypeDecimal d);
 void decimal__parse(DtypeDecimal d, char* buff, size_t size);
