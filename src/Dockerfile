@@ -13,4 +13,4 @@ WORKDIR /app
 COPY --from=builder /app/response .
 COPY --from=builder /app/main .
 EXPOSE 9999
-# CMD ["./main"]
+CMD ["./main"]

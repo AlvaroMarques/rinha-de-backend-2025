@@ -1,14 +1,30 @@
 version: "3.8"
 
 services:
+  # imagem final enxuta, só para rodar
   always404:
     build: .
     container_name: always-404
     ports:
-      - "9999:9999"      # host:container
+      - "9999:9999"
+    networks:
+      - bridge_net
+
+  # ambiente de desenvolvimento interativo
+  dev:
+    image: gcc:13-bookworm
+    container_name: always-404-dev
+    volumes:
+      - ./:/app
+    working_dir: /app
+    command: /bin/bash
+    tty: true
+    stdin_open: true
+    ports:
+      - "9999:9999"
     networks:
       - bridge_net
 
 networks:
   bridge_net:
-    driver: bridge       # explícito, embora seja o default
+    driver: bridge
