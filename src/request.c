@@ -49,10 +49,10 @@ void RequestPaymentsPost__show(RequestPaymentsPost p) {
 	printf("request payments post amount %s\n", buff);
 }
 
-int main() {
+/*int main() {
 	char input[] = "{\"correlationId\":\"de6968d7-8746-4495-978f-5ea8da69e621\",\"amount\":19.9}";
 	RequestPaymentsPost p;
 	RequestPaymentsPost__from_string(&p, input);
 	RequestPaymentsPost__show(p);
 	return 0;
-}
+}*/

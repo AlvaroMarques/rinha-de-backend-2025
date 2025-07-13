@@ -8,6 +8,7 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
+#include "request.h"
 
 #define PORT     9999
 #define BACKLOG  10
@@ -87,6 +88,10 @@ int main(void)
         char buf[1024];
         recv(client_fd, buf, sizeof(buf), 0);
 	printf("%s\n", buf);
+
+	RequestPaymentsPost p;
+	RequestPaymentsPost__from_string(&p, buf);
+	RequestPaymentsPost__show(p);
 
         /* Enviar a resposta fixa */
         send(client_fd, RESPONSE_SUMMARY, sizeof(RESPONSE_SUMMARY) - 1, 0);
